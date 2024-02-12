@@ -34,6 +34,7 @@
     "debug": "^4.3.4"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.260",
     "@types/debug": "^4.1.12",
     "@types/merge-descriptors": "^1.0.3",
     "@types/node": "^20.11.17",

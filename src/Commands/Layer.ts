@@ -3,6 +3,7 @@ import { IRoute } from './Router';
 import { Trace } from './Message';
 
 const debug = Debug('cowmand:layer');
+const debugMatch = Debug('cowmand:layer:match');
 
 export interface Params {
   path: string;
@@ -99,19 +100,36 @@ class Layer implements ILayer {
   }
 
   match(params: Params) {
-    if (params.pathItems.length > this.pathItems.length) {
+    if (params.pathItems.length > this.pathItems.length && !this.isRouter) {
+      debugMatch('not match: %s', this.name);
       return false;
     }
 
-    return this.pathItems.reduce<boolean | null>((acc, pathItem, index) => {
-      if (acc === false) {
-        return false;
-      }
+    if (this.baseMathSetting.isRoot) {
+      debugMatch('match is root: %s', this.name);
+      return true;
+    }
 
-      const response = params.pathItems[index] === pathItem;
+    const paramsMatch = this.pathItems.reduce<boolean | null>(
+      (acc, pathItem, index) => {
+        if (acc === false) {
+          return false;
+        }
 
-      return response;
-    }, null);
+        const response = params.pathItems[index] === pathItem;
+
+        return response;
+      },
+      null
+    );
+
+    if (paramsMatch) {
+      debugMatch('match: %s', this.name);
+    } else {
+      debugMatch('not match: %s', this.name);
+    }
+
+    return params;
   }
 }
 

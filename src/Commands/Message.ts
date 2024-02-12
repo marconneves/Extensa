@@ -4,19 +4,19 @@ export interface Trace {
   crumbs: string[];
 }
 
-interface MessageData<T = undefined> {
+export interface MessageData<T = undefined> {
   path: string;
   trace: Trace;
   headers: { [key: string]: string };
   body?: T;
 }
 
-class Message<T = undefined> {
-  public path!: string;
+export class Message<T = unknown> {
+  readonly path!: string;
 
-  trace!: Trace;
+  readonly trace!: Trace;
 
-  headers: { [key: string]: string } = {};
+  readonly headers: { [key: string]: string } = {};
 
   body?: T;
 
@@ -27,13 +27,28 @@ class Message<T = undefined> {
     this.body = data.body;
   }
 
-  setCrumb(crumb: string) {
-    this.trace.crumbs.push(crumb);
+  setCrumb({ type, destination }: { type: string; destination: string }) {
+    this.trace.crumbs.push(`${type}#${destination}`);
   }
 
   removeCrumb() {
     this.trace.crumbs.pop();
   }
-}
 
-export default Message;
+  get destination(): {
+    type: 'internal' | 'contentScript';
+    destination: string;
+  } {
+    const [type, destination] =
+      this.trace.crumbs[this.trace.crumbs.length - 1].split('#');
+
+    return {
+      type: type as 'internal' | 'contentScript',
+      destination
+    };
+  }
+
+  setResponse(body: T) {
+    this.body = body;
+  }
+}
