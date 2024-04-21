@@ -10,6 +10,7 @@ assets/*
 docs/*
 .idea/*
 example/*
+.history/
 
 yarn.lock
 tsconfig.json

@@ -24,7 +24,7 @@ export class Message<T = unknown> {
     this.path = data.path;
     this.trace = data.trace;
     this.headers = data.headers;
-    this.body = data.body;
+    if (data.body) this.body = data.body;
   }
 
   setCrumb({ type, destination }: { type: string; destination: string }) {

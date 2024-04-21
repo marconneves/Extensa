@@ -1,6 +1,6 @@
 {
   "name": "extensa",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fast helper to create connection with worker on extension",
   "tags": [
     "extension",
@@ -31,13 +31,15 @@
     "node": ">=10"
   },
   "dependencies": {
-    "debug": "^4.3.4"
+    "debug": "^4.3.4",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.260",
     "@types/debug": "^4.1.12",
     "@types/merge-descriptors": "^1.0.3",
     "@types/node": "^20.11.17",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.56.0",
